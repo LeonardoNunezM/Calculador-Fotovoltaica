@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Sistema Fotovoltaico Autónomo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .input-group label {
+            grid-column: 1 / 2;
+        }
+        .input-group input, .input-group .unit, .input-group select {
+            grid-column: 2 / 3;
+        }
+        .input-group input, .input-group select {
+            text-align: right;
+        }
+         .result-value {
+            font-weight: 700;
+            color: #1D4ED8; /* text-blue-700 */
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 p-4 sm:p-6 lg:p-8">
+    <div class="max-w-4xl mx-auto bg-white p-6 rounded-2xl shadow-lg">
+        
+        <header class="mb-8 text-center">
+            <h1 class="text-2xl sm:text-3xl font-bold text-slate-900">Calculadora Fotovoltaica Interactiva</h1>
+            <p class="text-slate-500 mt-2">Modifica los datos de entrada para recalcular el sistema en tiempo real.</p>
+        </header>
+
+        <!-- SECCIÓN DE DATOS DE ENTRADA -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div class="space-y-4 p-6 bg-slate-100 rounded-xl">
+                <h2 class="text-lg font-semibold text-slate-700 border-b border-slate-300 pb-2">1. Datos de Entrada</h2>
+                
+                <div class="input-group">
+                    <label for="consumo" class="text-sm font-medium text-slate-600">Consumo Diario (Ed)</label>
+                    <div class="flex items-center justify-end">
+                        <input type="number" id="consumo" value="810" class="w-24 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        <span class="unit ml-2 text-sm text-slate-500">Wh/día</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="hsp" class="text-sm font-medium text-slate-600">Horas Solar Pico (HSP)</label>
+                    <div class="flex items-center justify-end">
+                        <input type="number" step="0.01" id="hsp" value="1.28" class="w-24 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                         <span class="unit ml-2 text-sm text-slate-500">h</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="fseg" class="text-sm font-medium text-slate-600">Factor de Seguridad</label>
+                    <div class="flex items-center justify-end">
+                        <input type="number" step="0.01" id="fseg" value="1.19" class="w-24 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                         <span class="unit ml-2 text-sm text-slate-500"></span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="eficiencia" class="text-sm font-medium text-slate-600">Eficiencia del Sistema</label>
+                     <div class="flex items-center justify-end">
+                        <input type="number" step="0.01" id="eficiencia" value="0.85" class="w-24 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                         <span class="unit ml-2 text-sm text-slate-500">%</span>
+                    </div>
+                </div>
+
+                 <div class="input-group">
+                    <label for="potenciaPanel" class="text-sm font-medium text-slate-600">Potencia de un Panel</label>
+                     <div class="flex items-center justify-end">
+                        <input type="number" id="potenciaPanel" value="550" class="w-24 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                         <span class="unit ml-2 text-sm text-slate-500">Wp</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="autonomia" class="text-sm font-medium text-slate-600">Días de Autonomía</label>
+                     <div class="flex items-center justify-end">
+                        <input type="number" id="autonomia" value="3" class="w-24 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                         <span class="unit ml-2 text-sm text-slate-500">días</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="dod" class="text-sm font-medium text-slate-600">Profundidad de Descarga (DoD)</label>
+                     <div class="flex items-center justify-end">
+                        <input type="number" step="0.1" id="dod" value="0.8" class="w-24 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                         <span class="unit ml-2 text-sm text-slate-500">%</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="tensionSistema" class="text-sm font-medium text-slate-600">Tensión del Sistema</label>
+                     <div class="flex items-center justify-end">
+                        <input type="number" id="tensionSistema" value="24" class="w-24 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                         <span class="unit ml-2 text-sm text-slate-500">V</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label for="capacidadBateria" class="text-sm font-medium text-slate-600">Capacidad de una Batería</label>
+                     <div class="flex items-center justify-end">
+                        <input type="number" id="capacidadBateria" value="100" class="w-24 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                         <span class="unit ml-2 text-sm text-slate-500">Ah</span>
+                    </div>
+                </div>
+                 <div class="input-group">
+                    <label for="potenciaMax" class="text-sm font-medium text-slate-600">Potencia Máxima Simultánea</label>
+                     <div class="flex items-center justify-end">
+                        <input type="number" id="potenciaMax" value="135" class="w-24 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                         <span class="unit ml-2 text-sm text-slate-500">W</span>
+                    </div>
+                </div>
+                 <div class="input-group">
+                    <label for="iscPanel" class="text-sm font-medium text-slate-600">Corriente Panel (Isc)</label>
+                     <div class="flex items-center justify-end">
+                        <input type="number" step="0.1" id="iscPanel" value="13.8" class="w-24 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                         <span class="unit ml-2 text-sm text-slate-500">A</span>
+                    </div>
+                </div>
+                 <!-- NUEVO SELECTOR DE EQUIPO -->
+                <div class="input-group pt-4 border-t border-slate-300">
+                    <label for="tipoEquipo" class="text-sm font-medium text-slate-600">Tipo de Equipo</label>
+                    <select id="tipoEquipo" class="w-48 p-2 border border-slate-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                        <option value="hibrido">Equipo Híbrido</option>
+                        <option value="separado">Componentes Separados</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- SECCIÓN DE RESULTADOS -->
+            <div class="space-y-6">
+                <!-- Generador FV -->
+                <div class="p-6 border border-slate-200 rounded-xl">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-4">A) Generador Fotovoltaico</h3>
+                    <div class="space-y-3 text-sm">
+                        <p class="flex justify-between"><span>Potencia Requerida (Pgen):</span> <span id="pgen" class="font-medium"></span></p>
+                        <hr>
+                        <p class="flex justify-between text-base"><strong>Número de Paneles:</strong> <span id="nPaneles" class="result-value"></span></p>
+                    </div>
+                </div>
+
+                <!-- Banco de Baterías -->
+                <div class="p-6 border border-slate-200 rounded-xl">
+                    <h3 class="text-lg font-semibold text-slate-700 mb-4">B) Banco de Baterías</h3>
+                     <div class="space-y-3 text-sm">
+                        <p class="flex justify-between"><span>Capacidad Requerida (Creq):</span> <span id="creq" class="font-medium"></span></p>
+                        <hr>
+                        <p class="flex justify-between text-base"><strong>Número de Baterías:</strong> <span id="nBaterias" class="result-value"></span></p>
+                    </div>
+                </div>
+
+                <!-- Inversor/Controlador -->
+                 <div id="resultadoEquipo" class="p-6 border border-slate-200 rounded-xl">
+                    <h3 id="tituloEquipo" class="text-lg font-semibold text-slate-700 mb-4"></h3>
+                     <div id="cuerpoEquipo" class="space-y-3 text-sm">
+                        <!-- Contenido dinámico aquí -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const inputs = document.querySelectorAll('input, select');
+
+        function calculate() {
+            // Recoger valores de los inputs
+            const consumo = parseFloat(document.getElementById('consumo').value) || 0;
+            const hsp = parseFloat(document.getElementById('hsp').value) || 1;
+            const fseg = parseFloat(document.getElementById('fseg').value) || 1;
+            const eficiencia = parseFloat(document.getElementById('eficiencia').value) || 1;
+            const potenciaPanel = parseFloat(document.getElementById('potenciaPanel').value) || 1;
+            const autonomia = parseFloat(document.getElementById('autonomia').value) || 1;
+            const dod = parseFloat(document.getElementById('dod').value) || 1;
+            const tensionSistema = parseFloat(document.getElementById('tensionSistema').value) || 1;
+            const capacidadBateria = parseFloat(document.getElementById('capacidadBateria').value) || 1;
+            const potenciaMax = parseFloat(document.getElementById('potenciaMax').value) || 0;
+            const iscPanel = parseFloat(document.getElementById('iscPanel').value) || 0;
+            const tipoEquipo = document.getElementById('tipoEquipo').value;
+
+            // --- Cálculos ---
+
+            // 1. Generador FV
+            const pgen = (consumo * fseg) / (hsp * eficiencia);
+            const nPanelesTeorico = pgen / potenciaPanel;
+            // Para sistemas de 24V, los paneles se agrupan de a 2. El número de paneles debe ser par.
+            const nPaneles = Math.ceil(nPanelesTeorico / 2) * 2; 
+
+            document.getElementById('pgen').textContent = `${pgen.toFixed(2)} Wp`;
+            document.getElementById('nPaneles').textContent = `${nPaneles} unidades`;
+
+            // 2. Banco de Baterías
+            const creq = (consumo * autonomia) / (dod * tensionSistema);
+            const nBaterias = Math.ceil(creq / capacidadBateria);
+
+            document.getElementById('creq').textContent = `${creq.toFixed(2)} Ah`;
+            document.getElementById('nBaterias').textContent = `${nBaterias} unidades`;
+
+            // 3. Equipo Híbrido o Separado
+            const pInvRequerida = potenciaMax;
+            const nStrings = nPaneles / 2;
+            const iccRequerida = iscPanel * nStrings * 1.25;
+
+            // Selección de equipo comercial
+            let pInvSeleccionada = 300;
+            if (pInvRequerida > 300) pInvSeleccionada = 500;
+            if (pInvRequerida > 500) pInvSeleccionada = 1000;
+            if (pInvRequerida > 1000) pInvSeleccionada = 1500;
+            if (pInvRequerida > 1500) pInvSeleccionada = 2000;
+            if (pInvRequerida > 2000) pInvSeleccionada = 3000;
+
+            let iccSeleccionada = 20;
+            if (iccRequerida > 20) iccSeleccionada = 30;
+            if (iccRequerida > 30) iccSeleccionada = 40;
+            if (iccRequerida > 40) iccSeleccionada = 60;
+            if (iccRequerida > 60) iccSeleccionada = 80;
+            if (iccRequerida > 80) iccSeleccionada = 100;
+
+            // Actualizar la sección de resultados del equipo
+            const tituloEquipo = document.getElementById('tituloEquipo');
+            const cuerpoEquipo = document.getElementById('cuerpoEquipo');
+
+            if (tipoEquipo === 'hibrido') {
+                tituloEquipo.textContent = 'C) Equipo Híbrido';
+                cuerpoEquipo.innerHTML = `
+                    <p class="flex justify-between"><span>Potencia Inversor Requerida:</span> <span class="font-medium">${pInvRequerida.toFixed(2)} W</span></p>
+                    <p class="flex justify-between"><span>Corriente Controlador Requerida:</span> <span class="font-medium">${iccRequerida.toFixed(2)} A</span></p>
+                    <hr>
+                    <p class="flex justify-between text-base"><strong>Equipo Seleccionado:</strong> <span class="result-value">${pInvSeleccionada}W / ${iccSeleccionada}A</span></p>
+                `;
+            } else { // Componentes Separados
+                tituloEquipo.textContent = 'C) Componentes Separados';
+                cuerpoEquipo.innerHTML = `
+                    <div class="border-b pb-3 mb-3">
+                        <p class="font-semibold text-slate-600">Inversor de Carga</p>
+                        <p class="flex justify-between"><span>Potencia Requerida:</span> <span class="font-medium">${pInvRequerida.toFixed(2)} W</span></p>
+                        <p class="flex justify-between text-base"><strong>Inversor Seleccionado:</strong> <span class="result-value">${pInvSeleccionada} W</span></p>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-slate-600">Controlador de Carga</p>
+                        <p class="flex justify-between"><span>Corriente Requerida:</span> <span class="font-medium">${iccRequerida.toFixed(2)} A</span></p>
+                        <p class="flex justify-between text-base"><strong>Controlador Seleccionado:</strong> <span class="result-value">${iccSeleccionada} A</span></p>
+                    </div>
+                `;
+            }
+        }
+
+        inputs.forEach(input => {
+            input.addEventListener('input', calculate);
+        });
+
+        // Cálculo inicial al cargar la página
+        calculate();
+    </script>
+</body>
+</html>
